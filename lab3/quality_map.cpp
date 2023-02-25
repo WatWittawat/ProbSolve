@@ -7,6 +7,18 @@ bool check;
 char my_map[35][35];
 bool Walk[35][35];
 
+void myinput()
+{
+    for (int i = 0; i < row; i++)
+    {
+        for(int j = 0; j < column; j++)
+        {
+            cin >> my_map[i][j];
+            Walk[i][j] = false;
+        }
+    }
+}
+
 void Check_move(int c_row, int c_column, char ss)
 {
     Walk[c_row][c_column] = true;
@@ -39,14 +51,7 @@ void Check_move(int c_row, int c_column, char ss)
 int main(){
     int G1 = 0, G2 = 0;
     cin >> row >> column;
-    for (int i = 0; i < row; i++)
-    {
-        for(int j = 0; j < column; j++)
-        {
-            cin >> my_map[i][j];
-            Walk[i][j] = false;
-        }
-    }
+    myinput();
     for (int i = 0; i < row; i++)
     {
         for (int j = 0; j < column; j++)
