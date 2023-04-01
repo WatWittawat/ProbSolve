@@ -3,6 +3,7 @@
         "cstdio": "cpp",
         "iostream": "cpp",
         "queue": "cpp",
-        "utility": "cpp"
+        "utility": "cpp",
+        "vector": "cpp"
     }
 }
