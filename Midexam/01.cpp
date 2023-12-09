@@ -1,40 +1,69 @@
 #include <iostream>
+#include <queue>
+#include <utility>
+#define INF 0xfffffff
 
 using namespace std;
 
-int main(){
-    int row,colum, A, B, X, Y;
-    //int create[5][8] = {{1,1,2,2,2,3,3,3}, {1,4,2,2,2,3,3,3}, {4,4,2,2,2,5,6,3}, {4,4,4,4,5,5,6,6}, {4,4,5,5,5,6,6,6}};
-    cin >> row >> colum >> A >> B >> X >> Y;
-    int create[row][colum];
-    for(int i = 0; i < row; i++)
+int mapp[31][31];
+int vit[31][31];
+int diss[31][31];
+int myco[2][4] = {{1, -1, 0, 0}, {0, 0, 1, -1}};
+
+int main()
+{
+    int r, c, a, b, x, y;
+    cin >> r >> c >> a >> b >> x >> y;
+    a = a -1;
+    b = b -1;
+    x = x -1;
+    y = y -1;
+    for (int i = 0; i < r; i++)
     {
-        for(int j = 0; j < colum; j++)
+        for (int j = 0; j < c; j++)
         {
-            cin >> create[i][j];
+            cin >> mapp[i][j];
+            vit[i][j] = 0;
+            diss[i][j] = INF;
         }
     }
-    // แก้ index 
-    A = A - 1;
-    B = B - 1;
-    X = X -1;
-    Y = Y -1;
-    int start = create[A][B], endd = create[X][Y];
-    int ans = -1;
-    if (start == endd)
-        cout << 0 << endl;
-    else
+    queue<pair<int, int>> q;
+    queue<int> d;
+    q.push({a, b});
+    d.push(0);
+    diss[a][b] = 0;
+    while (not q.empty() and not d.empty())
     {
-        while (start != endd)
+        int row = q.front().first;
+        int col = q.front().second;
+        int dis = d.front();
+        q.pop();
+        vit[row][col] = 1;
+        for (int j = 0; j < 4; j++)
         {
-            if (B != Y && Y> B)
-                B++;
-            else if (A != X && X > A)
-                A++;
-            start = create[A][B];
-            ans ++;
+            if (row + myco[0][j] < r and row + myco[0][j] >= 0 and col + myco[1][j] < c and col + myco[1][j] >= 0)
+            {
+                if (mapp[row][col] == mapp[row + myco[0][j]][col + myco[1][j]])
+                {
+                    if (diss[row + myco[0][j]][col + myco[1][j]] > diss[row][col] + dis)
+                    {
+                        diss[row + myco[0][j]][col + myco[1][j]] = diss[row][col] + dis;
+                        q.push({row + myco[0][j], col + myco[1][j]});
+                        d.push(dis);
+                    }
+                }
+                else
+                {
+                    if (diss[row + myco[0][j]][col + myco[1][j]] > diss[row][col] + dis + 1)
+                    {
+                        diss[row + myco[0][j]][col + myco[1][j]] = diss[row][col] + dis + 1;
+                        q.push({row + myco[0][j], col + myco[1][j]});
+                        d.push(dis + 1);
+                    }
+                }
+            }
         }
-        cout << ans << endl;
     }
+    cout << diss[x][y] << endl;
     return 0;
 }
